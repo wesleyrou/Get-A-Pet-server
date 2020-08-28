@@ -8,10 +8,18 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   // Return all pets currently up for adoption.
+  const pets = Pets.get();
+  res.status(200).json(pets);
 });
 
 router.delete('/', json, (req, res) => {
   // Remove a pet from adoption.
+  const {whichPet,personName} = req.body;
+
+  // People.dequeue();
+  Pets.dequeue(whichPet);
+
+  res.status(204).json();
 });
 
 module.exports = router;
