@@ -28,19 +28,30 @@ module.exports = {
     } catch(e){
     }    
 
-    return {
+    return [
       cat,
       dog
-    };
+    ];
   },
 
   dequeue(type) {
     // Remove a pet from the queue.
+    let adoptee;
     switch(type){
     case 'dog':
-      return pets.dogs.dequeue();
+      adoptee = pets.dogs.dequeue();
+      //Refill dogs if we've run out
+      if(pets.dogs.first === null){
+        store.dogs.forEach(dog => pets.dogs.enqueue(dog));
+      }
+      return adoptee;
     case 'cat':
-      return pets.cats.dequeue();
+      adoptee = pets.cats.dequeue();
+      //Refill dogs if we've run out
+      if(pets.cats.first === null){
+        store.cats.forEach(cat => pets.cats.enqueue(cat));
+      }
+      return adoptee;
     default:
       return;
     }
