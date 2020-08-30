@@ -22,6 +22,13 @@ module.exports = {
 
   dequeue() {
     // Remove a person from the queue.
-    return people.dequeue();
+    let removed = people.dequeue();
+
+    //Refill queue
+    if(people.first === null){
+      store.people.forEach(person => people.enqueue(person));
+    }
+    
+    return removed;
   }
 };
